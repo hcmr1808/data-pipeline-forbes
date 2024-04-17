@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: forbes2000
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  metabase:
+    container_name: metabase
+    image: metabase/metabase:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    command: ["java", "-jar", "/app/metabase.jar"]
+
+volumes:
+  db_data:
+
+#docker restart metabase
+#docker restart postgres
